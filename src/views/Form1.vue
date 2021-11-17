@@ -7,7 +7,7 @@
         </v-col>
         <v-col cols="12" md="6" sm="12">
           <v-text-field
-            v-model="userData.pws"
+            v-model="userData.psw"
             :append-icon="show ? 'visibility' : 'visibility_off'"
             :rules="[rules.required, rules.min]"
             :type="show ? 'text' : 'password'"
@@ -38,7 +38,7 @@
         </v-col>
         <v-col cols="12" md="6" sm="12">
           <v-checkbox
-            v-model="userData.Options"
+            v-model="userData.options"
             value="sendcoupons"
             label=" Send me monthly coupons"
           >
@@ -46,11 +46,21 @@
         </v-col>
         <v-col cols="12" md="6" sm="12">
           <v-checkbox
-            v-model="userData.Options"
+            v-model="userData.options"
             value="sendSpecial"
             label="I want today's special"
           >
           </v-checkbox>
+        </v-col>
+        <v-col cols="12" md="6" sm="12">
+          <v-file-input
+            label="image"
+            filled
+            :rules="[rules.images]"
+            accept="image/png, image/jpeg, image/bmp"
+            placeholder="Pick a picture"
+            ref="image1"
+          ></v-file-input>
         </v-col>
         <v-col cols="12" md="6" sm="12">
           <v-btn color="success" class="mr-4" @click.prevent="submitted"
@@ -59,7 +69,6 @@
         </v-col>
       </v-row>
       <v-card
-        
         class="mx-auto my-12"
         max-width="374"
         elevation="2"
@@ -72,7 +81,7 @@
               Mail: <b>{{ userData.email }}</b>
             </div>
             <div>
-              Password: <b>{{ userData.pws }}</b>
+              Password: <b>{{ userData.psw }}</b>
             </div>
             <div>
               Satisfaction: <b>{{ userData.satisfaction }}</b>
@@ -80,9 +89,10 @@
             <p style="white-space: pre">
               Message: <b>{{ userData.comments }}</b>
             </p>
-            <p>Options:</p>
+            <p>options:</p>
             <ul>
-              <li v-for="(item, index) in userData.Options" :key="index">{{ index }}. {{ item }}
+              <li v-for="(item, index) in userData.options" :key="index">
+                {{ index }}. {{ item }}
               </li>
             </ul>
           </v-row>
@@ -92,21 +102,23 @@
   </v-form>
 </template>
 <script>
+import UserDataService from "../services/UserDataService";
 export default {
   data() {
     return {
       show: false,
       userData: {
         email: "",
-        pws: "",
+        psw: "",
         satisfaction: 10,
         comments: "Describe your review...",
-        Options: [],
+        options: [],
         isSummitted: false,
       },
       rules: {
         required: (value) => !!value || "Required.",
         min: (v) => v.length >= 8 || "Min 8 Characters.",
+        images:(value) => !value || value.size < 2000000 || 'Image size should be less than 2 MB!',
       },
       label_stf: {
         label: "Satisfaction",
@@ -117,9 +129,24 @@ export default {
   },
   methods: {
     submitted() {
-      this.userData.isSummitted = true;
-      console.log(this.userData.Options);
-    },
-  },
+      //this.userData.isSummitted = true;
+      //console.log(this.userData.options);
+      //alert(JSON.stringify(this.userData));
+      var data = {
+        email: this.userData.email,
+        psw: this.userData.psw,
+        satisfaction: this.userData.satisfaction,
+        comments: this.userData.comments,
+        options: this.userData.options,
+      };
+      UserDataService.create(data)
+        .then(() => {
+          alert("Created new user succesfully");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }
 };
 </script>
