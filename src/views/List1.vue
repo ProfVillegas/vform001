@@ -177,7 +177,6 @@ export default {
     },
     deleteItem(item) {
       //alert("Show Delete Modal");
-      //this.edituserData=Object.assign({},item);
       this.edituserData = Object.assign({}, item);
       this.dialogDelete = true;
       console.log(item);

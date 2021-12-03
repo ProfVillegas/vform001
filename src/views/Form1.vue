@@ -118,7 +118,10 @@ export default {
       rules: {
         required: (value) => !!value || "Required.",
         min: (v) => v.length >= 8 || "Min 8 Characters.",
-        images:(value) => !value || value.size < 2000000 || 'Image size should be less than 2 MB!',
+        images: (value) =>
+          !value ||
+          value.size < 2000000 ||
+          "Image size should be less than 2 MB!",
       },
       label_stf: {
         label: "Satisfaction",
@@ -146,7 +149,7 @@ export default {
         .catch((e) => {
           console.log(e);
         });
-    }
-  }
+    },
+  },
 };
 </script>

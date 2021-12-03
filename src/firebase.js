@@ -4,6 +4,8 @@ import "firebase/compat/auth";
 
 import "firebase/compat/firestore";
 
+import "firebase/compat/storage";
+
 let firebaseConfig = {
   apiKey: "AIzaSyBMNVzWDn5ZpXn_9EDspfxBWL-hdFsxaCY",
   authDomain: "smprofesorut.firebaseapp.com",
@@ -16,5 +18,6 @@ let firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+export const FirebaseStorage = firebase.storage();
 
 export default firebase.firestore();

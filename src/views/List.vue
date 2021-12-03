@@ -19,7 +19,7 @@ export default {
       headers: [
         { text: "E-mail", value: "email" },
         { text: "Satisfaction", value: "satisfaction" },
-        { text: "Comments", value: "comments",sortable:false },
+        { text: "Comments", value: "comments", sortable: false },
         { text: "Actions", value: "actions", sortable: false },
       ],
       userData: [],
