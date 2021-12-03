@@ -99,6 +99,7 @@
   </v-data-table>
 </template>
 <script>
+import { FirebaseStorage } from "../firebase";
 import UserDataService from "../services/UserDataService";
 
 export default {
@@ -111,6 +112,7 @@ export default {
         satisfaction: 1,
         comments: "",
         options: [],
+        image: "",
       },
       defaultuserData: {
         email: "",
@@ -118,6 +120,7 @@ export default {
         satisfaction: 1,
         comments: "",
         options: [],
+        image: "",
       },
       currentuserData: null,
       currentIndex: -1,
@@ -159,6 +162,7 @@ export default {
           satisfaction: data.satisfaction,
           comments: data.comments,
           options: data.options,
+          image: data.image,
         });
       });
       this.userData = _userData;
@@ -221,6 +225,17 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+    },
+    getPicture(file) {
+      return new Promise((resolve, reject) => {
+        var startRef = FirebaseStorage.ref().child(file);
+
+        startRef.getDownloadURL().then(function (url) {
+          resolve(url);
+        }).catch(function(error){
+          reject(error);
+        });
+      });
     },
   },
   mounted() {
